@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         
+         
+       #box {
+           border: 2px solid blue;
+           justify-items: center;
+           width:200px
+       }
+       input{
+           margin-bottom: 3px;
+       }
+        
+             
+    </style>
+</head>
+<body><center>
+    <div id="box">
+        <a href="./procucts.html">Product</a>
+    <form onsubmit="addData(event)" action="" id="products">
+        <input  id="name" type="text" placeholder="Name"><br>
+        <input id="category" type="text" placeholder="Category"><br>
+        <input id="image" type="text" placeholder="Image Url"><br>
+        <input id="price" type="text" placeholder="Price"><br>
+        <input id="gender" type="text" placeholder="Gender"><br>
+        <label for="sold"> sold or Not</label>
+        <input id="sold" type="radio" placeholder="Sold" ><br>
+        <input type="submit" id="add">
+    </form>
+</div>
+</center>
+</body>
+</html>
+<script>
+
+
+
+
+function product(n,c,p,i,g,s)
+{
+   
+    this.name = n
+    this.category = c
+    this.price = p;
+   this.image =i
+    this.gender = g;
+    this.sold = s;
+    
+}
+var arr = JSON.parse( localStorage.getItem("products"))|| [];
+console.log(arr)
+
+function addData(event)
+
+{   event.preventDefault()
+  console.log(document.getElementById("sold").checked)
+  
+    let form =  document.getElementById("products");
+ let  name = form.name.value;
+let category = form.category.value;
+let image = form.image.value;
+let price = form.price.value;
+let gender = form.gender.value;
+let  sold = form.sold.value;
+let person1 = new product(name,category,price,image,gender,sold)
+
+arr.push(person1)
+
+
+ localStorage.setItem("products", JSON.stringify(arr));
+
+}
+   
+
+
+
+    
+</script>

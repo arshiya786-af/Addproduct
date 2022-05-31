@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #showProducts {
+            display: grid;
+            grid-template-columns: repeat(3, 300px);
+            grid-template-rows: auto;
+            gap: 50px;
+            justify-content: center;
+            
+        }
+
+        #showProducts>div {
+            width: 300px;
+            height: 600px;
+            border: 1px solid black;
+
+
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+        }
+
+        #showProducts>div>p,
+        h4 {
+            text-align: center;
+        }
+
+        #btnflex {
+            display: flex;
+            justify-content: center;
+            gap: 10px
+        }
+    </style>
+</head>
+
+<body>
+    <div id="showProducts">
+
+
+
+    </div>
+</body>
+
+</html>
+<script>
+    var arr = JSON.parse(localStorage.getItem("products"));
+    console.log(arr)
+    var showProducts = document.getElementById("showProducts")
+    arr.map(function (ele, index) {
+        let box = document.createElement("div")
+        let img = document.createElement("img")
+        img.src = ele.image;
+        let name = document.createElement("h4")
+        name.innerText = ele.name
+        let category = document.createElement("p")
+        category.innerText = ele.category;
+        let gender = document.createElement("p")
+        gender.innerText = ele.gender;
+        let price = document.createElement("p")
+        price.innerText = ele.price;
+        let btnbox = document.createElement("div")
+        btnbox.setAttribute("id", "btnflex")
+        let rem = document.createElement("button")
+        rem.innerText = "Remove"
+        rem.setAttribute("id", "remove")
+        rem.addEventListener("click", () => {
+            removeFunct(ele, index);
+        })
+
+        //  let onclRemove  = document.getElementById("remove").addEventListener("click",removeFunct(ele,index))
+
+        let sold = document.createElement("button")
+        if (arr[index].sold== true) {
+            sold.innerText = "Unsold";
+            sold.style.backgroundcolor = "red"
+            //console.log(arr[index].sold)
+            localStorage.setItem("products", JSON.stringify(arr));
+
+        }
+        else if (arr[index].sold == false) {
+
+
+            sold.innerText = "Sold";
+            sold.style.border = "green"
+            //console.log(arr[index].sold)
+            localStorage.setItem("products", JSON.stringify(arr));
+        }
+
+        sold.setAttribute("id", "sold")
+        sold.addEventListener("click", () => {
+            soldItem(sold, ele, index);
+        })
+      
+            btnbox.append(rem, sold)
+        box.append(img, name, category, gender, price, btnbox)
+        showProducts.append(box)
+
+    })
+
+
+    function removeFunct(ele, index) {
+        let updtedArr = JSON.parse(localStorage.getItem("products"));
+        updtedArr.splice(index, 1);
+        localStorage.setItem('products', JSON.stringify(updtedArr));
+        document.location.reload()
+    }
+    function soldItem(sold, ele, index) {
+        var arr1 = JSON.parse(localStorage.getItem("products"));
+        if (arr1[index].sold == true) {
+            sold.innerText = "Sold";
+            arr1[index].sold = false;
+            sold.style.background = "red"
+            console.log(arr[index].sold)
+            localStorage.setItem("products", JSON.stringify(arr1));
+
+        }
+        else if (arr1[index].sold == false) {
+            arr1[index].sold = true;
+            console.log(arr[index].sold)
+            localStorage.setItem("products", JSON.stringify(arr1));
+            sold.innerText = "unsold";
+        }
+        window.location.reload()
+
+    }
+
+</script>
